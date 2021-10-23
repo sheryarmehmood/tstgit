@@ -12,9 +12,24 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
+
+                    <!-- @if(!auth()->user()->subscribed('cashier'))
+                    <x-jet-nav-link href="{{ route('subscribe') }}" :active="request()->routeIs('subscribe')">
+                        Subscribe
+                    </x-jet-nav-link>
+                    @endif
+
+                    @if(auth()->user()->subscribed('cashier'))
+                    <x-jet-nav-link href="{{ route('members') }}" :active="request()->routeIs('members')">
+                        Members
+                    </x-jet-nav-link>
+                    @endif -->
+
+
                 </div>
             </div>
 
@@ -92,9 +107,9 @@
 
                         <x-slot name="content">
                             <!-- Account Management -->
-                            <div class="block px-4 py-2 text-xs text-gray-400">
+                            <!-- <div class="block px-4 py-2 text-xs text-gray-400">
                                 {{ __('Manage Account') }}
-                            </div>
+                            </div> -->
 
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
@@ -105,6 +120,26 @@
                                     {{ __('API Tokens') }}
                                 </x-jet-dropdown-link>
                             @endif
+                            
+                            <div class="border-t border-gray-100"></div>
+                           <?php
+                           $user = Auth::user();
+                           $team = $user->currentTeam;
+                           ?>
+                            @if($user->ownsTeam($team))
+                            @if(!auth()->user()->subscribed('cashier'))
+                            <x-jet-dropdown-link href="{{ route('subscribe') }}" :active="request()->routeIs('subscribe')">
+                                Subscribe
+                            </x-jet-dropdown-link>
+                            @endif
+
+                            @if(auth()->user()->subscribed('cashier'))
+                            <x-jet-dropdown-link href="{{ route('members') }}" :active="request()->routeIs('members')">
+                                Subscription
+                            </x-jet-dropdown-link>
+                            @endif
+                            @endif
+
 
                             <div class="border-t border-gray-100"></div>
 
@@ -180,6 +215,9 @@
                         {{ __('Log Out') }}
                     </x-jet-responsive-nav-link>
                 </form>
+                
+
+            
 
                 <!-- Team Management -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
@@ -199,6 +237,7 @@
                             {{ __('Create New Team') }}
                         </x-jet-responsive-nav-link>
                     @endcan
+                    
 
                     <div class="border-t border-gray-200"></div>
 
@@ -211,6 +250,9 @@
                         <x-jet-switchable-team :team="$team" component="jet-responsive-nav-link" />
                     @endforeach
                 @endif
+
+            
+
             </div>
         </div>
     </div>

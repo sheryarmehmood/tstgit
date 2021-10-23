@@ -10,15 +10,25 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <!-- <x-jet-welcome /> -->
                 <?php 
-                 $user =  Auth::user();
-                 $team = $user->currentTeam;
+                $user = Auth::user(); 
+                $ui=  Auth::user()->id;
+                $subs = 'plan';
+                $subscriptions = Laravel\Cashier\Subscription::where('user_id',$ui)->first();
                 ?>
-               
                 
+                <!-- {{$subscriptions->stripe_price}} -->
 
-                <!-- @if($user->hasTeamRole($team, 'writer')) -->
-                <!-- {{$user->allTeams()}} -->
-                <!-- @endif -->
+                @if($subscriptions->stripe_price == 'price_1JlIrsDBfyvrAKAqAELdn22p')
+                Welcome {{$user->name}} ! You are subscribed to the Standard subscription plan.
+                @elseif($subscriptions->stripe_price == 'price_1JlIrsDBfyvrAKAqiQDk4sLy')
+                Welcome {{$user->name}} ! You are subscribed to the Premium subscription plan.
+                @endif
+                
+               
+
+
+                
+                
                 <!-- @if(Auth::user()->id == 0)
                 {{$user->id}}
                 
