@@ -13,7 +13,7 @@
                  $user =  Auth::user();
                  $team = $user->currentTeam;
                 ?>
-               
+                
                 
 
                 <!-- @if($user->hasTeamRole($team, 'writer')) -->

@@ -29,10 +29,7 @@
                 <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             </div>
 
-            <div class="mt-4">
-                <!-- <x-jet-label for="stripe_id" value="{{ __('stripe_id') }}" /> -->
-                <x-jet-input type="hidden" id="stripe_id" class="block mt-1 w-full" name="stripe_id" value="price_1JlIrsDBfyvrAKAqAELdn22p"/>
-            </div>
+            <x-jet-input type="hidden" id="stripe_id" class="block mt-1 w-full" name="stripe_id" value=""/>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">

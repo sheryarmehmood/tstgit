@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use Carbon\Carbon;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -29,16 +30,28 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
 
+    
         return DB::transaction(function () use ($input) {
-            return tap(User::create([
-                'name' => $input['name'],
-                'email' => $input['email'],
-                'password' => Hash::make($input['password']),
-            ]), function (User $user) {
-                $this->createTeam($user);
-            });
-        });
- 
+            if($input['stripe_id'] == 'price_1JlIrsDBfyvrAKAqAELdn22p')
+            $trial_days = now()->addDays(1);
+            else
+            $trial_days = null;
+                return tap(User::create([
+                    'name' => $input['name'],
+                    'email' => $input['email'],
+                    'password' => Hash::make($input['password']),
+                    'trial_ends_at' => $trial_days,      
+                ]), function (User $user) {
+                    if($user->trial_ends_at != null){
+                    $trialDays = 1;
+                    $planId = "price_1JlIrsDBfyvrAKAqAELdn22p";
+                    $user->createAsStripeCustomer();
+                    $user->newSubscription('cashier', $planId)->create(null, [
+                        'email' => $user->email
+                    ], ['trial_period_days' => $trialDays]);}
+                    $this->createTeam($user);
+                });
+            });     
     }
 
     /**

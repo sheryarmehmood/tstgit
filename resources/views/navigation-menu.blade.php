@@ -32,9 +32,23 @@
 
                 </div>
             </div>
+        
+            <?php
+            $user = Auth::user();
+            $team = $user->currentTeam; 
+                $ui=  Auth::user()->id;
+                $subs = 'plan';
+                $subscriptions = Laravel\Cashier\Subscription::where('user_id',$ui)->first();
+                if($user->stripe_id != NULL)
+                $subsc_plan = $subscriptions->stripe_price;
+                else 
+                $subsc_plan = '';
+                ?>    
 
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-                <!-- Teams Dropdown -->
+            
+            @if($subsc_plan  == 'price_1JlIrsDBfyvrAKAqiQDk4sLy')
+            <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">
                         <x-jet-dropdown align="right" width="60">
@@ -83,6 +97,8 @@
                         </x-jet-dropdown>
                     </div>
                 @endif
+           
+            @endif
 
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative">
@@ -107,9 +123,9 @@
 
                         <x-slot name="content">
                             <!-- Account Management -->
-                            <!-- <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Manage Account') }}
-                            </div> -->
+                            <!-- <div class="block px-4 py-2 text-xs text-gray-400"> -->
+                                <!-- {{ __('Manage Account') }} -->
+                            <!-- </div>  -->
 
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
@@ -122,10 +138,7 @@
                             @endif
                             
                             <div class="border-t border-gray-100"></div>
-                           <?php
-                           $user = Auth::user();
-                           $team = $user->currentTeam;
-                           ?>
+                           
                             @if($user->ownsTeam($team))
                             @if(!auth()->user()->subscribed('cashier'))
                             <x-jet-dropdown-link href="{{ route('subscribe') }}" :active="request()->routeIs('subscribe')">
@@ -135,7 +148,7 @@
 
                             @if(auth()->user()->subscribed('cashier'))
                             <x-jet-dropdown-link href="{{ route('members') }}" :active="request()->routeIs('members')">
-                                Subscription
+                                Membership
                             </x-jet-dropdown-link>
                             @endif
                             @endif
