@@ -31,7 +31,7 @@
 
             <div class="mt-4">
                 <!-- <x-jet-label for="stripe_id" value="{{ __('stripe_id') }}" /> -->
-                <x-jet-input type="hidden" id="stripe_id" class="block mt-1 w-full" name="stripe_id" value="price_1JlIrsDBfyvrAKAqAELdn22p"/>
+                <x-jet-input type="hidden" id="stripe_id" class="block mt-1 w-full" name="stripe_id" value="price_1JrILdDBfyvrAKAq2oiPSlCD"/>
             </div>
 
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())

@@ -1,3 +1,6 @@
+<?php
+use Carbon\Carbon; 
+?>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -15,15 +18,34 @@
                 $subs = 'plan';
                 $subscriptions = Laravel\Cashier\Subscription::where('user_id',$ui)->first();
                 ?>
-                
-                <!-- {{$subscriptions->stripe_price}} -->
 
-                @if($subscriptions->stripe_price == 'price_1JlIrsDBfyvrAKAqAELdn22p')
-                Welcome {{$user->name}} ! You are subscribed to the Standard subscription plan.
-                @elseif($subscriptions->stripe_price == 'price_1JlIrsDBfyvrAKAqiQDk4sLy')
-                Welcome {{$user->name}} ! You are subscribed to the Premium subscription plan.
-                @endif
+                <!-- @if($user->trial_ends_at != null)
+                {{$user->name}}
+                @endif -->
+
+                <!-- {{$subscriptions->stripe_price}} -->
                 
+
+                
+                
+                    
+                    @if($subscriptions->stripe_price == 'price_1JlIrsDBfyvrAKAqAELdn22p')
+                    Welcome {{$user->name}} ! You are subscribed to the Standard subscription plan.
+                    
+                    @elseif($subscriptions->stripe_price == 'price_1JlIrsDBfyvrAKAqiQDk4sLy')
+                    Welcome {{$user->name}} ! You are subscribed to the Premium subscription plan.
+                    
+                    @endif
+                
+          
+                
+                
+                
+                <br>
+
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('change') }}">
+                    {{ __('Change Subscription') }}
+                </a>
                
 
 

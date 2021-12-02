@@ -32,19 +32,19 @@ class CreateNewUser implements CreatesNewUsers
 
     
         return DB::transaction(function () use ($input) {
-            if($input['stripe_id'] == 'price_1JlIrsDBfyvrAKAqAELdn22p')
+            if($input['stripe_id'] == 'price_1JrILdDBfyvrAKAq2oiPSlCD')
             $trial_days = now()->addDays(1);
             else
             $trial_days = null;
                 return tap(User::create([
                     'name' => $input['name'],
-                    'email' => $input['email'],
+                    'email' => $input['email'], 
                     'password' => Hash::make($input['password']),
                     'trial_ends_at' => $trial_days,      
                 ]), function (User $user) {
                     if($user->trial_ends_at != null){
                     $trialDays = 1;
-                    $planId = "price_1JlIrsDBfyvrAKAqAELdn22p";
+                    $planId = "price_1JrILdDBfyvrAKAq2oiPSlCD";
                     $user->createAsStripeCustomer();
                     $user->newSubscription('cashier', $planId)->create(null, [
                         'email' => $user->email

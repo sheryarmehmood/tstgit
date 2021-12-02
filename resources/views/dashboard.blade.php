@@ -4,18 +4,27 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <!-- <x-jet-welcome /> -->
                 <?php 
                  $user =  Auth::user();
                  $team = $user->currentTeam;
                 ?>
-                
+    @if($user->ownsTeam($team))
+    <div class="py-12" style="text-align: center">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <!-- <x-jet-welcome /> -->
                 
 
+                <div class="py-10">
+                
+                <a style="background:#6875F5;color:white;padding:15px" href="{{ route('uploadagreement') }}">
+                    {{ __('New Agreement') }}
+                </a>
+                <!-- <button style="background:#6875F5;color:white;padding:15px;margin:5px;" ><a>href="{{ route('uploadagreement') }}"</a>
+                                New Agreement
+                <button> -->
+                
+                </div>
                 <!-- @if($user->hasTeamRole($team, 'writer')) -->
                 <!-- {{$user->allTeams()}} -->
                 <!-- @endif -->
@@ -31,4 +40,5 @@
             </div>
         </div>
     </div>
+    @endif
 </x-app-layout>
