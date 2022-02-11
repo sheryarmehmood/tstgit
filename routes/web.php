@@ -22,6 +22,23 @@ Route::get('/purchase', function () {
     return view('purchase');
 })->name('purchase');
 
+Route::get('/certificatephp', function () {
+    return view('certificatephp');
+})->name('certificatephp');
+
+Route::post('/certificatephp', function () {
+    return view('certificatephp');
+})->name('certificatephp');
+
+Route::post('/frmsb', function () {
+    return view('frmsb');
+})->name('frmsb');
+
+Route::get('/frmsb', function () {
+    return view('frmsb');
+})->name('frmsb');
+
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
@@ -106,4 +123,11 @@ Route::get('/uploadagreement', function () {
     return view('uploadagreement');
 })->name('uploadagreement');
 
+Route::post('/createagreement', function () {
+    return view('createagreement');
+})->name('createagreement');
+
 Route::post('/upload', 'App\Http\Controllers\Contracts@index');
+Route::get('/upload', function () {
+    return view('createagreement');
+})->name('createagreement');
