@@ -1,5 +1,6 @@
 <?php
 
+
 if(isset($_GET['submit']))
 {
   $tp = $_GET['tp'];
@@ -8,37 +9,46 @@ if(isset($_GET['submit']))
   $tex = $_GET['tex'];
   $in = $_GET['in'];
   
-  $pn = trim($in,"public");
-  $pn = "/storage".$pn;
-  $pn = public_path($pn);
+  $pp = json_decode($_COOKIE['TestCookie']);
   
+  $indx = sizeof($pp)-1;
+// print_r($indx);
+  // print_r($pp[$indx]);
+  $sr = $pp[0];
+  $fn = $pp[$indx];
+  
+  $pn = $pp[$indx];
+  // print_r($pn);
+  // $pn = trim($in,"public");
+  $sr = "/storage/".$pn;
+  $sr = public_path($sr);
+  echo $sr;
+  echo "<br>";
+  echo $pn;
+  echo "<br>";
+  echo $indx;
+  echo "<br>";
 
-  // $pdf = new \setasign\Fpdi\Fpdi('l');
+  // // $pdf = new \setasign\Fpdi\Fpdi('l');
   $pdf = new \setasign\Fpdi\Fpdi('P', 'mm', 'A4');
 
-  // Reference the PDF you want to use (use relative path)
-$pagecount = $pdf->setSourceFile($pn);
-// echo "<script>alert('$pagecount');</script>";
+// //   // Reference the PDF you want to use (use relative path)
+$pagecount = $pdf->setSourceFile($sr);
 
-// for ($j=1; $j<=($pagecount); $j++) {
-//   $pdf->AddPage();
-//   $import_page = $pdf->ImportPage($j);
-//   $pdf->UseTemplate($import_page);
-// }
 
-// Import the first page from the PDF and add to dynamic PDF
+// // // Import the first page from the PDF and add to dynamic PDF
 $tpl = $pdf->importPage(1);
 
 $pdf->AddPage();
 
-// Use the imported page as the template
+// // // Use the imported page as the template
 $pdf->useTemplate($tpl);
 
 $pdf->SetFont('Times','B');
-// $w = strlen($tex)+10;
-$s = $pdf->GetStringWidth($tex);
+// // // $w = strlen($tex)+10;
+// // $s = $pdf->GetStringWidth($tex);
 
-// First box - the user's Name
+// // // First box - the user's Name
 $pdf->SetFontSize('11'); // set font size
 
 $lt = $lt + $sy;
@@ -46,41 +56,170 @@ $pdf->SetXY($tp, $lt); // set the position of the box
 $pdf->Cell(30, 4, $tex, 0, 0, 'L'); // add the text, align to Center of cell
 
 
+$trpe = "/storage/".$pp[$indx];
+  
+  $trpe = public_path($trpe);
+
 ob_get_clean();
-// render PDF to browser 
-$pdf->Output('F',$pn);
+// // render PDF to browser 
+
+$pdf->Output('F',$trpe);
+}
+
+
+if(array_key_exists('button1', $_GET)) { 
+  $in = $_GET['in'];
+  $pp = json_decode($_COOKIE['TestCookie']);
+  $np = count($pp).$pp[0];
+  
+  array_push($pp,$np);
+  $json = json_encode($pp);
+  setcookie("TestCookie", $json);
+
+  $indx = sizeof($pp)-1;
+
+  $fn = $pp[$indx];
+
+  button1(); 
+} 
+function button1() { 
+  $pp = json_decode($_COOKIE['TestCookie']);
+  $np = count($pp).$pp[0];
+  
+  array_push($pp,$np);
+  $json = json_encode($pp);
+  setcookie("TestCookie", $json);
+  
+  $indx = sizeof($pp)-1;
+
+
+  $pn = "/storage/".$pp[0];
+  
+  $pn = public_path($pn);
+
+
+  
+  $pdf = new \setasign\Fpdi\Fpdi('P', 'mm', 'A4');
+  
+  $pagecount = $pdf->setSourceFile($pn);
+  
+
+
+  $tpl = $pdf->importPage(2);
+
+  $pdf->AddPage();
+
+// // Use the imported page as the template
+  $pdf->useTemplate($tpl);
+
+  
+  $trp = "/storage/".$pp[$indx];
+  
+  $trp = public_path($trp);
+  echo $trp;
+  
+  ob_get_clean();
+ 
+  $pdf->Output('F',$trp);
+} 
+
+if(array_key_exists('button2', $_GET)) { 
+  $in = $_GET['in'];
+  $pp = json_decode($_COOKIE['TestCookie']);
+  $fn = $pp[0];
+  print_r($pp);
+  button2(); 
+}
+
+function button2() { 
+  $pp = json_decode($_COOKIE['TestCookie']);
+  // print_r(count($pp));
+  $pdf = new \setasign\Fpdi\Fpdi('P', 'mm', 'A4');
+      for ($i=1; $i<count($pp);$i++)
+      {
+
+        $pgn = $i.$pp[0];
+        $pgn = "/storage/".$pgn;
+  
+        $pgn = public_path($pgn);
+        $pagecount = $pdf->setSourceFile($pgn);
+
+        $tpl = $pdf->importPage(1);
+
+        $pdf->AddPage();
+
+        // Use the imported page as the template
+        $pdf->useTemplate($tpl);
+ }
+ ob_get_clean();
+ $finalpdf = $pp[0];
+ $finalpdf = "/storage/".$finalpdf;
+  
+ $finalpdf = public_path($finalpdf);
+ $pdf->Output('F',$finalpdf);
+//  $pdf->Output('I');
+}
+
+
+
+
+if (isset($wn)) 
+{ 
+  // session_start();
+  $pp = array();
+  
+  $in = $wn;
+  $tn = trim($in,"public/");
+  // $pp = array();
+  array_push($pp,$tn);
+  // print_r($pp);
+  $json = json_encode($pp);
+  setcookie("TestCookie", $json);
+  // $_SESSION["pp"] = $pp; 
+ 
+  // echo $in;
+  $gn = trim($in,"public/");
+  $pn = trim($in,"public");
+  // echo $pn;
+  
+  $pn = "/storage".$pn;
+  
+  $pn = public_path($pn);
+  $in = $pn;
+  
+  $pdf = new \setasign\Fpdi\Fpdi('P', 'mm', 'A4');
+
+  // Reference the PDF you want to use (use relative path)
+  $pagecount = $pdf->setSourceFile($pn);
+
+  $tpl = $pdf->importPage(1);
+
+  $pdf->AddPage();
+
+  // Use the imported page as the template
+  $pdf->useTemplate($tpl);
+
+  $pn = count($pp).$gn;
+  array_push($pp,$pn);
+  $json = json_encode($pp);
+  setcookie("TestCookie", $json);
+  
+  // echo $pn;
+  $fn = $pn;
+  // echo $fn;
+  $pn = "/storage/".$pn;
+  
+  $pn = public_path($pn);
+  // echo $pn;
+
+  ob_get_clean();
+  // render PDF to browser 
+  $pdf->Output('F',$pn);
+  
 
 }
 
-// if(array_key_exists('button1', $_GET)) { 
-//   $in = $_GET['in'];
-//   button1(); 
-// } 
-// function button1() { 
-//   $in = $_GET['in'];
-//   $pdf = new \setasign\Fpdi\Fpdi('P', 'mm', 'A4');
-//   $pn = trim($in,"public");
-//   $pn = "/storage".$pn;
-//   $pn = public_path($pn);
-//   $pagecount = $pdf->setSourceFile($pn);
-//   $tpl = $pdf->importPage(2);
-
-// $pdf->AddPage();
-
-// // Use the imported page as the template
-// $pdf->useTemplate($tpl);
-//   // echo "This is Button1 that is selected"; 
-//   $pdf->Output('F',$pn);
-// } 
-
-
-
-
-
-$fn = trim($in,"public");
-
-$i = "http://127.0.0.1:8000/storage".$fn;
-
+$i = "http://127.0.0.1:8000/storage/".$fn;
 
 ?> 
 
@@ -114,18 +253,6 @@ body{
 <body>
 
 
-<!-- <button onclick="testfn()" style="margin-bottom:50px;">BTN</button> -->
-<!-- <p id="demo">Hi</p> -->
-<!-- <input type="submit" name="submit" value="SUBMIT" id="textform"> -->
-<!-- </form> -->
-<!-- </div> -->
-
-<!-- <div id="tp">
-</div> -->
-
-<!-- <iframe src="{{$i}}" width="100%" height="500"></iframe> -->
-
-
 <!-- <h1>Draggable DIV Element</h1> -->
 
 <div id="pd" style="position:fixed;background-color:grey;width:800px;">
@@ -141,25 +268,28 @@ body{
 <input type="text" id="in" name="in" value="<?php echo $in;?>" style="display:none;">
 <input type="text" id="tex" name="tex" style="visibility: hidden;">
 <button type="submit" value="submit" name="submit">Submit</button> 
-<!-- <form method="post"> 
-    <input type="submit" name="button1"
-            class="button" value="Button1" /> 
-</form>  -->
+
  
 </div>
 
 <iframe id="ifr" name="ifr" src="{{$i}}#toolbar=0&navpanes=0&scrollbar=0" frameborder="0" scrolling="no" style="width:800px; height:1180px;margin-top:65px;"></iframe>
 <!-- height="650" -->
 
-<!-- <div style="visibility: hidden;" id="formnew1"> -->
-<!-- <form id="textform" method="post" action=""> -->
-<!-- <form method="GET"> 
+<form method="GET"> 
     <input type="submit" name="button1"
-            class="button" value="Button1" /> 
-            <input type="text" id="in" name="in" value="<?php echo $in;?>" style="display:none;">
+            class="button" value="NEXT PAGE" /> 
+            <input type="text" id="in" name="in" value="<?php echo $in;?>" style="visibility: hidden;"> 
+            <!-- style="display:none;" -->
 
-</form>  -->
+</form> 
 
+<form method="GET"> 
+    <input type="submit" name="button2"
+            class="button" value="DONE" /> 
+            <input type="text" id="in" name="in" value="<?php echo $in;?>" style="visibility: hidden;"> 
+            <!-- style="display:none;" -->
+
+</form> 
 
 <script>
 

@@ -9,7 +9,7 @@ class Contracts extends Controller
     function index(Request $req)
     {
     //   print_r($req->file());
-    $in = $req->file('agreement')->store('public');
-    return view("createagreement",compact('in'));
+    $wn = $req->file('agreement')->store('public');
+    return view("createagreement",compact('wn'));
     }
 }
