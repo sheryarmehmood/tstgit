@@ -127,7 +127,7 @@ if(array_key_exists('button2', $_GET)) {
   $in = $_GET['in'];
   $pp = json_decode($_COOKIE['TestCookie']);
   $fn = $pp[0];
-  print_r($pp);
+  // print_r($pp);
   button2(); 
 }
 
